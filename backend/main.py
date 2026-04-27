@@ -23,7 +23,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://weather-fmubm35hz-mamadou.vercel.app"
+        "https://weather-fmubm35hz-mamadou.vercel.app",
+        "https://weather-app-ten-gilt-33.vercel.app"
     ],
     allow_methods=["*"],
     allow_headers=["*"],

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import SearchHistory from './SearchHistory'
 
 function App() {
   const [city, setCity] = useState('')
@@ -6,6 +7,7 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [suggestions, setSuggestions] = useState([])
+  const [searchCount, setSearchCount] = useState(0)
 
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY
 
@@ -22,6 +24,21 @@ function App() {
       if (!response.ok) throw new Error('City not found')
       const data = await response.json()
       setWeather(data)
+
+      // Save search to database
+fetch('http://127.0.0.1:8000/searches', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    city: data.name,
+    country: data.sys.country,
+    temp: data.main.temp,
+    description: data.weather[0].description,
+    humidity: data.main.humidity,
+    wind_speed: data.wind.speed
+  })
+})
+setSearchCount(prev => prev + 1)
     } catch (err) {
       setError(err.message)
       setWeather(null)
@@ -44,6 +61,36 @@ function App() {
     } catch {
       setSuggestions([])
     }
+  }
+
+  const getLocation = () => {
+    if (!navigator.geolocation) {
+      setError('Geolocation is not supported by your browser')
+      return
+    }
+    setLoading(true)
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords
+        try {
+          const response = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=imperial`
+          )
+          if (!response.ok) throw new Error('Location not found')
+          const data = await response.json()
+          setCity(data.name)
+          setWeather(data)
+        } catch (err) {
+          setError(err.message)
+        } finally {
+          setLoading(false)
+        }
+      },
+      () => {
+        setError('Unable to retrieve your location')
+        setLoading(false)
+      }
+    )
   }
 
   const getBackground = () => {
@@ -71,6 +118,7 @@ function App() {
           onKeyDown={(e) => { if (e.key === 'Enter') fetchWeather() }}
         />
         <button onClick={fetchWeather}>Search</button>
+        <button onClick={getLocation}>📍 Use My Location</button>
       </div>
 
       {suggestions.length > 0 && (
@@ -116,6 +164,8 @@ function App() {
           </div>
         </div>
       )}
+
+      <SearchHistory key={searchCount} />
     </div>
   )
 }

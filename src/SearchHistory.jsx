@@ -4,7 +4,7 @@ function SearchHistory() {
   const [searches, setSearches] = useState([])
 
   const fetchSearches = async () => {
-    const response = await fetch('http://127.0.0.1:8000/searches')
+    const response = await fetch('https://weather-app-backend-rfon.onrender.com/searches')
     const data = await response.json()
     setSearches(data)
   }
@@ -14,18 +14,18 @@ function SearchHistory() {
   }, [])
 
   const deleteSearch = async (id) => {
-    await fetch(`http://127.0.0.1:8000/searches/${id}`, {
+    await fetch(`https://weather-app-backend-rfon.onrender.com/searches/${id}`, {
       method: 'DELETE'
     })
     fetchSearches()
   }
 
   const exportJSON = () => {
-    window.open('http://127.0.0.1:8000/export/json', '_blank')
+    window.open('https://weather-app-backend-rfon.onrender.com/export/json', '_blank')
   }
 
   const exportCSV = () => {
-    window.open('http://127.0.0.1:8000/export/csv', '_blank')
+    window.open('https://weather-app-backend-rfon.onrender.com/export/csv', '_blank')
   }
 
   return (

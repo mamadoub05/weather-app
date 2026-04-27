@@ -26,7 +26,7 @@ function App() {
       setWeather(data)
 
       // Save search to database
-fetch('http://127.0.0.1:8000/searches', {
+fetch('https://weather-app-backend-rfon.onrender.com/searches', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({

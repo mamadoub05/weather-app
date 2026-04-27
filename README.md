@@ -19,3 +19,7 @@ A full-stack weather application built with React (frontend) and FastAPI (backen
 **Backend:** FastAPI, SQLAlchemy, SQLite, Python  
 **API:** OpenWeatherMap
 
+## Live Demo
+[View Live App](https://weather-app-ten-gilt-33.vercel.app)
+
+**Backend API:** [https://weather-app-backend-rfon.onrender.com](https://weather-app-backend-rfon.onrender.com)

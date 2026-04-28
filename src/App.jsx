@@ -106,6 +106,16 @@ setSearchCount(prev => prev + 1)
   return (
     <div className="app" style={{ background: getBackground() }}>
       <h1>Weather App</h1>
+      <div className="app-info">
+        <p className="app-author">Built by Mamadou Bah</p>
+        <p className="app-description">
+          Built for PM Accelerator which is a program designed to support PM professionals 
+          through every stage of their careers. From students looking for entry level 
+          jobs to Directors looking to take on leadership roles, PM Accelerator has helped 
+          hundreds of students fulfill their career aspirations through hands on experience, 
+          mentorship, and a global community of product leaders.
+        </p>
+      </div>
       <div className="search">
         <input
           type="text"
